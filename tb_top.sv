@@ -11,19 +11,14 @@ module tb_top;
   logic HRESET;
 
   // Instantiate AHB and SRAM interfaces
-  ahb_if ahb_interface();
-  sram_if sram_interface();
+  ahb_if ahb_interface(HCLK);
+  sram_if sram_interface(HCLK);
 
   // Device Under Test
   sram_control dut (
     .HCLK(HCLK),
-    .HADDR(HADDR),
-    .HWRITE(HWRITE),
-    .HTRANS(HTRANS),
-    .HWDATA(HWDATA),
-    .HRDATA(HRDATA),
-    .HRESET(HRESET),
-    .sram_interface(sram_interface)
+    .ahb_bus(ahb_interface),
+    .sram_bus(sram_interface)
   );
 
   // Clock generation
@@ -76,16 +71,16 @@ module tb_top;
   // Task to drive AHB signals
   task drive_ahb(ahb_transaction txn);
     @(posedge HCLK);
-    HADDR = txn.HADDR;
-    HWRITE = txn.HWRITE;
-    HTRANS = txn.HTRANS;
-    HWDATA = txn.HWDATA;
-    HRESET = txn.HRESET;
+    ahb_interface.HADDR = txn.HADDR;
+    ahb_interface.HWRITE = txn.HWRITE;
+    ahb_interface.HTRANS = txn.HTRANS;
+    ahb_interface.HWDATA = txn.HWDATA;
+    ahb_interface.HRESET = txn.HRESET;
   endtask
-  
-initial begin
-  $dumpfile("waveform.vcd");  // VCD format
-  $dumpvars(0, tb_top);
-end
+
+  initial begin
+    $dumpfile("waveform.vcd");  // VCD format
+    $dumpvars(0, tb_top);
+  end
 
 endmodule
