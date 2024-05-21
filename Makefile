@@ -20,24 +20,24 @@ all: $(SIMV)
 
 # Compile the design and testbench
 $(SIMV): $(SV_SOURCES) $(VHDL_SOURCES)
-$(VCS) $(VCS_FLAGS) $(SV_SOURCES) $(VHDL_SOURCES) -o $(SIMV)
+	$(VCS) $(VCS_FLAGS) $(SV_SOURCES) $(VHDL_SOURCES) -o $(SIMV)
 
 # Run the simulation
 run: $(SIMV)
-  ./$(SIMV)
+	./$(SIMV)
 
 # View the waveform
 view: $(WAVEFORM)
-  gtkwave $(WAVEFORM)
+	gtkwave $(WAVEFORM)
 
 # Clean up generated files
 clean:
-  rm -rf $(SIMV) csrc DVEfiles ucli.key $(WAVEFORM) *.vpd *.vcd *.fsdb *.log
+	rm -rf $(SIMV) csrc DVEfiles ucli.key $(WAVEFORM) *.vpd *.vcd *.fsdb *.log
 
 # Generate the waveform
 $(WAVEFORM): run
-  # Ensure the waveform file is generated
-  @echo "Waveform generated: $(WAVEFORM)"
+	# Ensure the waveform file is generated
+	@echo "Waveform generated: $(WAVEFORM)"
 
 # Phony targets
 .PHONY: all run view clean
