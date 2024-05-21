@@ -10,9 +10,7 @@ package ahb_pkg;
     rand bit [7:0]  HRDATA;
 
     constraint address_constraint {
-      (HADDR inside {0, 1, 2, 3, 4}) == 40%;
-      (HADDR inside {27, 28, 29, 30, 31}) == 40%;
-      !(HADDR inside {0, 1, 2, 3, 4, 27, 28, 29, 30, 31}) == 20%;
+      HADDR dist {0:4 := 40, 27:31 := 40, default := 20};
     }
 
     constraint htrans_constraint {
