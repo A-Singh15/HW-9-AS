@@ -3,12 +3,7 @@
 module tb_top;
   import ahb_pkg::*;
   logic HCLK;
-  logic [20:0] HADDR;
-  logic HWRITE;
-  logic [1:0] HTRANS;
-  logic [7:0] HWDATA;
-  logic [7:0] HRDATA;
-  logic HRESET;
+  logic reset;
 
   // Instantiate AHB and SRAM interfaces
   ahb_if ahb_interface(HCLK);
@@ -16,9 +11,9 @@ module tb_top;
 
   // Device Under Test
   sram_control dut (
-    .HCLK(HCLK),
     .ahb_bus(ahb_interface),
-    .sram_bus(sram_interface)
+    .sram_bus(sram_interface),
+    .reset(reset)
   );
 
   // Clock generation
@@ -31,6 +26,10 @@ module tb_top;
   initial begin
     ahb_transaction txn;
     txn = new();
+
+    reset = 1;
+    #10;
+    reset = 0;
 
     // 10 back to back random writes
     repeat (10) begin
@@ -45,7 +44,7 @@ module tb_top;
     // Display memory locations 0 to 4
     $display("Memory locations 0 to 4 after writes:");
     for (int i = 0; i < 5; i++) begin
-      $display("Address %0d: Data = %0h", i, sram_interface.memory[i]);
+      $display("Address %0d: Data = %0h", i, sram_interface.DQ);
     end
 
     // 10 back to back random reads
