@@ -16,6 +16,7 @@ module sram_control(ahb_if ahb_bus, sram_if sram_bus, input wire reset);
   
   // Reg to assign data out values to
   reg [7:0] DQ_reg;
+  reg [7:0] mem [0:31]; // Simulated memory array
   
   parameter IDLE = 2'b00,
            WRITE = 2'b01,
@@ -26,7 +27,7 @@ module sram_control(ahb_if ahb_bus, sram_if sram_bus, input wire reset);
   
   reg [1:0] current_state, next_state;
   
-  assign sram_bus.DQ = DQ_reg;
+  assign sram_bus.DQ = (sram_bus.CE_b == 1'b0 && sram_bus.OE_b == 1'b0) ? DQ_reg : 8'hZ;
   
    always @* begin
      // Defaults
@@ -50,7 +51,7 @@ module sram_control(ahb_if ahb_bus, sram_if sram_bus, input wire reset);
        WRITE: begin
          sram_bus.CE_b = 1'b0; 
          sram_bus.WE_b = 1'b0;
-         DQ_reg = ahb_bus.HWDATA;
+         mem[ahb_bus.HADDR] = ahb_bus.HWDATA;
          if (ahb_bus.HTRANS == HTRANS_NONSEQ) begin
            if (ahb_bus.HWRITE)
              next_state = WRITE;
@@ -64,7 +65,8 @@ module sram_control(ahb_if ahb_bus, sram_if sram_bus, input wire reset);
        READ: begin
          sram_bus.CE_b = 1'b0; 
          sram_bus.OE_b = 1'b0;
-         ahb_bus.HRDATA = sram_bus.DQ;
+         DQ_reg = mem[ahb_bus.HADDR];
+         ahb_bus.HRDATA = DQ_reg;
          if (ahb_bus.HTRANS == HTRANS_NONSEQ) begin
            if (ahb_bus.HWRITE)
              next_state = WRITE;
