@@ -12,7 +12,7 @@
 //
 //////////////////////////////////////////////////////////////
 `default_nettype none
-  module sram_control(ahb_if ahb_bus, sram_if sram_bus, input wire reset);
+module sram_control(ahb_if ahb_bus, sram_if sram_bus, input wire reset);
   
   // Reg to assign data out values to
   reg [7:0] DQ_reg;
@@ -106,6 +106,3 @@
   //synopsys translate_on
   
 endmodule
-  
-  
-  
