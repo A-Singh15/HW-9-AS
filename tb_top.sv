@@ -82,5 +82,10 @@ module tb_top;
     HWDATA = txn.HWDATA;
     HRESET = txn.HRESET;
   endtask
+  
+initial begin
+  $dumpfile("waveform.vcd");  // VCD format
+  $dumpvars(0, tb_top);
+end
 
 endmodule
