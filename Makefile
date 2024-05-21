@@ -5,7 +5,7 @@ VCS = vcs
 VCS_FLAGS = -full64 -sverilog -timescale=1ns/1ps -debug_acc+all+dmptf -debug_region+cell+encrypt
 
 # Source files
-SV_SOURCES = ahb_pkg.sv tb_top.sv sram_control.sv
+SV_SOURCES = ahb_pkg.sv tb_top.sv sram_control.sv ahb_if.sv sram_if.sv
 # If you have any VHDL files, list them here
 VHDL_SOURCES = # package_timing.vhd package_utility.vhd async.vhd
 
