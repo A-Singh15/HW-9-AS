@@ -37,6 +37,8 @@ module tb_top;
       txn.HTRANS = 2'b10;
       txn.HRESET = 0;
       txn.HADDR = $urandom_range(0, 4);
+      txn.HWRITE = 1;
+      txn.HWDATA = $urandom;
       @(posedge HCLK);
       drive_ahb(txn);
     end
@@ -44,7 +46,13 @@ module tb_top;
     // Display memory locations 0 to 4
     $display("Memory locations 0 to 4 after writes:");
     for (int i = 0; i < 5; i++) begin
-      $display("Address %0d: Data = %0h", i, sram_interface.DQ);
+      txn.HADDR = i;
+      txn.HWRITE = 0;
+      txn.HTRANS = 2'b10;
+      @(posedge HCLK);
+      drive_ahb(txn);
+      @(posedge HCLK);
+      $display("Address %0d: Data = %0h", i, ahb_interface.HRDATA);
     end
 
     // 10 back to back random reads
@@ -53,6 +61,7 @@ module tb_top;
       txn.HTRANS = 2'b10;
       txn.HRESET = 0;
       txn.HADDR = $urandom_range(0, 4);
+      txn.HWRITE = 0;
       @(posedge HCLK);
       drive_ahb(txn);
     end
