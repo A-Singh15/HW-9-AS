@@ -2,7 +2,7 @@
 
 # VCS compiler and simulation flags
 VCS = vcs
-VCS_FLAGS = -full64 -sverilog -timescale=1ns/1ps -debug_all
+VCS_FLAGS = -full64 -sverilog -timescale=1ns/1ps -debug_acc+all+dmptf -debug_region+cell+encrypt
 
 # Source files
 SV_SOURCES = ahb_pkg.sv tb_top.sv sram_control.sv
