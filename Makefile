@@ -20,7 +20,7 @@ all: $(SIMV)
 
 # Compile the design and testbench
 $(SIMV): $(SV_SOURCES) $(VHDL_SOURCES)
-  $(VCS) $(VCS_FLAGS) $(SV_SOURCES) $(VHDL_SOURCES) -o $(SIMV)
+$(VCS) $(VCS_FLAGS) $(SV_SOURCES) $(VHDL_SOURCES) -o $(SIMV)
 
 # Run the simulation
 run: $(SIMV)
