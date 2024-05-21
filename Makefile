@@ -5,8 +5,9 @@ VCS = vcs
 VCS_FLAGS = -full64 -sverilog -timescale=1ns/1ps -debug_all
 
 # Source files
-SV_SOURCES = ahb_pkg.sv tb_top.sv sram_control.sv sram_interface.sv
-VHDL_SOURCES = package_timing.vhd package_utility.vhd async.vhd
+SV_SOURCES = ahb_pkg.sv tb_top.sv sram_control.sv
+# If you have any VHDL files, list them here
+VHDL_SOURCES = # package_timing.vhd package_utility.vhd async.vhd
 
 # Output executable
 SIMV = simv
