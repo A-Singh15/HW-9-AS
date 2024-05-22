@@ -46,19 +46,6 @@
 4. **Program for Stimulus, Package for Class, Top Module for Instantiation:**
    - `tb_top.sv` serves as the top module, `ahb_pkg.sv` as the package, and the stimulus is correctly applied in the testbench.
 
-### Notes:
-- **Driving AHB Bus Correctly:**
-  - The AHB signals are driven on the positive edge of `HCLK`.
-
-- **SRAM Model in VHDL:**
-  - The code assumes an SRAM model is in VHDL, but for simulation purposes, the memory array is defined within `sram_control.sv`.
-
-### Deliverables:
-1. **Code for Package, Program, Top-level Testbench, and Interfaces:**
-   - All provided and verified.
-
-2. **Waveforms:**
-   - The Makefile runs the simulation and generates a VCD file which can be viewed using GTKWave.
 
 ### Final Code Summary:
 
